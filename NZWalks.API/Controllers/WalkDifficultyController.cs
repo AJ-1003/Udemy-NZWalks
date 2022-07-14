@@ -23,6 +23,11 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreateWalkDifficultyDTO createWalkDifficulty)
         {
+            if (!await ValidateCreateAsync(createWalkDifficulty))
+            {
+                return BadRequest(ModelState);
+            }
+
             // Conver DTO to domain object
             var domainWalkDifficulty = _mapper.Map<WalkDifficulty>(createWalkDifficulty);
 
@@ -76,6 +81,11 @@ namespace NZWalks.API.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateWalkDifficultyDTO updateWalkDifficulty)
         {
+            if (!await ValidateUpdateAsync(updateWalkDifficulty))
+            {
+                return BadRequest(ModelState);
+            }
+
             // Conver DTO to domain object
             var domainWalkDifficulty = _mapper.Map<WalkDifficulty>(updateWalkDifficulty);
 
@@ -115,5 +125,49 @@ namespace NZWalks.API.Controllers
             // Return response
             return Ok(walkDifficultyDTO);
         }
+
+        #region Private Methods
+        private async Task<bool> ValidateCreateAsync(CreateWalkDifficultyDTO createWalkDifficulty)
+        {
+            if (createWalkDifficulty == null)
+            {
+                ModelState.AddModelError(nameof(createWalkDifficulty), "Data is required!");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(createWalkDifficulty.Code))
+            {
+                ModelState.AddModelError(nameof(createWalkDifficulty.Code), $"{nameof(createWalkDifficulty.Code)} cannot be null, empty or white space!");
+            }
+
+            if (ModelState.ErrorCount > 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private async Task<bool> ValidateUpdateAsync(UpdateWalkDifficultyDTO updateWalkDifficulty)
+        {
+            if (updateWalkDifficulty == null)
+            {
+                ModelState.AddModelError(nameof(updateWalkDifficulty), "Data is required!");
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(updateWalkDifficulty.Code))
+            {
+                ModelState.AddModelError(nameof(updateWalkDifficulty.Code), $"{nameof(updateWalkDifficulty.Code)} cannot be null, empty or white space!");
+            }
+
+            if (ModelState.ErrorCount > 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
     }
 }
