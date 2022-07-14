@@ -2,19 +2,19 @@
 
 namespace NZWalks.API.Repositories
 {
-    public interface IRegionRepository
+    public interface IWalkRepository
     {
         /* ====================< (C)REATE >==================== */
-        Task<Region> CreateAsync(Region region);
+        Task<Walk> CreateAsync(Walk walk);
 
         /* ====================< (R)EAD >==================== */
-        Task<IEnumerable<Region>> GetAllAsync();
-        Task<Region> GetAsync(Guid id);
+        Task<IEnumerable<Walk>> GetAllAsync();
+        Task<Walk> GetAsync(Guid id);
 
         /* ====================< (U)PDATE >==================== */
-        Task<Region> UpdateAsync(Guid id, Region region);
+        Task<Walk> UpdateAsync(Guid id, Walk walk);
 
         /* ====================< (D)ELETE >==================== */
-        Task<Region> DeleteAsync(Guid id);
+        Task<Walk> DeleteAsync(Guid id);
     }
 }

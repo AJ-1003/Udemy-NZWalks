@@ -14,7 +14,7 @@ namespace NZWalks.API.Repositories
         }
 
         /* ====================< (C)REATE >==================== */
-        public async Task<Region> AddAsync(Region region)
+        public async Task<Region> CreateAsync(Region region)
         {
             region.Id = Guid.NewGuid();
             await _context.AddAsync(region);
@@ -28,19 +28,26 @@ namespace NZWalks.API.Repositories
             return await _context.Regions.ToListAsync();
         }
 
-        public async Task<Region> GetAsync(Guid id)
+        public async Task<Region?> GetAsync(Guid id)
         {
-            return await _context.Regions.FirstOrDefaultAsync(r => r.Id == id);
+            var region = await _context.Regions.FirstOrDefaultAsync(r => r.Id == id);
+
+            if (region == null)
+            {
+                return null;
+            }
+
+            return region;
         }
 
         /* ====================< (U)PDATE >==================== */
-        public async Task<Region> UpdateAsync(Guid id, Region updatedRegion)
+        public async Task<Region?> UpdateAsync(Guid id, Region updatedRegion)
         {
             var domainRegion = await _context.Regions.FirstOrDefaultAsync(r => r.Id == id);
 
             if (domainRegion == null)
             {
-                return domainRegion;
+                return null;
             }
 
             domainRegion.Code = updatedRegion.Code;
@@ -55,13 +62,13 @@ namespace NZWalks.API.Repositories
         }
 
         /* ====================< (D)ELETE >==================== */
-        public async Task<Region> DeleteAsync(Guid id)
+        public async Task<Region?> DeleteAsync(Guid id)
         {
             var region = await _context.Regions.FirstOrDefaultAsync(r => r.Id == id);
 
             if (region == null)
             {
-                return region;
+                return null;
             }
 
             _context.Regions.Remove(region);

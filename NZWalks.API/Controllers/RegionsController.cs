@@ -21,7 +21,7 @@ namespace NZWalks.API.Controllers
 
         /* ====================< (C)REATE >==================== */
         [HttpPost]
-        public async Task<IActionResult> AddAsync(CreateRegionDTO createRegion)
+        public async Task<IActionResult> CreateAsync(CreateRegionDTO createRegion)
         {
             // Convert request(DTO) to domain model
             //var domainRegion = new Region()
@@ -37,7 +37,7 @@ namespace NZWalks.API.Controllers
             var domainRegion = _mapper.Map<Region>(createRegion);
 
             // Pass details to repository
-            domainRegion = await _regionRepository.AddAsync(domainRegion);
+            domainRegion = await _regionRepository.CreateAsync(domainRegion);
 
             // Convert back to DTO
             //var regionDTO = new Region()
@@ -105,10 +105,10 @@ namespace NZWalks.API.Controllers
         /* ====================< (U)PDATE >==================== */
         [HttpPut]
         [Route("{id:guid}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateRegionDTO updatedRegion)
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateRegionDTO updateRegion)
         {
             // Convert DTO to domain model
-            var domainRegion = _mapper.Map<Region>(updatedRegion);
+            var domainRegion = _mapper.Map<Region>(updateRegion);
 
             // Update region using repository
             domainRegion = await _regionRepository.UpdateAsync(id, domainRegion);
