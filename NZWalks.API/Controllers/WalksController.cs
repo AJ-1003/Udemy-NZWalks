@@ -27,6 +27,7 @@ namespace NZWalks.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync(CreateWalkDTO createWalk)
         {
+            // Validate request (Manual Validation)
             if (!await ValidateCreateAsync(createWalk))
             {
                 return BadRequest(ModelState);
@@ -85,6 +86,7 @@ namespace NZWalks.API.Controllers
         [Route("{id:guid}")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateWalkDTO updateWalk)
         {
+            // Validate request (Manual Validation)
             if (!await ValidateUpdateAsync(updateWalk))
             {
                 return BadRequest(ModelState);
@@ -130,24 +132,25 @@ namespace NZWalks.API.Controllers
             return Ok(walkDTO);
         }
 
+
         #region Private Methods
         private async Task<bool> ValidateCreateAsync(CreateWalkDTO createWalk)
         {
-            if (createWalk == null)
-            {
-                ModelState.AddModelError(nameof(createWalk), "Data is required!");
-                return false;
-            }
+            //if (createWalk == null)
+            //{
+            //    ModelState.AddModelError(nameof(createWalk), "Data is required!");
+            //    return false;
+            //}
 
-            if (string.IsNullOrWhiteSpace(nameof(createWalk.Name)))
-            {
-                ModelState.AddModelError(nameof(createWalk.Name), $"{nameof(createWalk.Name)} cannot be null, empty or white space!");
-            }
+            //if (string.IsNullOrWhiteSpace(nameof(createWalk.Name)))
+            //{
+            //    ModelState.AddModelError(nameof(createWalk.Name), $"{nameof(createWalk.Name)} cannot be null, empty or white space!");
+            //}
 
-            if (createWalk.Length < 0)
-            {
-                ModelState.AddModelError(nameof(createWalk.Length), $"{nameof(createWalk.Length)} must be greater than zero!");
-            }
+            //if (createWalk.Length < 0)
+            //{
+            //    ModelState.AddModelError(nameof(createWalk.Length), $"{nameof(createWalk.Length)} must be greater than zero!");
+            //}
 
             var region = await _regionRepository.GetAsync(createWalk.RegionId);
 
@@ -173,21 +176,21 @@ namespace NZWalks.API.Controllers
 
         private async Task<bool> ValidateUpdateAsync(UpdateWalkDTO updateWalk)
         {
-            if (updateWalk == null)
-            {
-                ModelState.AddModelError(nameof(updateWalk), "Data is required!");
-                return false;
-            }
+            //if (updateWalk == null)
+            //{
+            //    ModelState.AddModelError(nameof(updateWalk), "Data is required!");
+            //    return false;
+            //}
 
-            if (string.IsNullOrWhiteSpace(nameof(updateWalk.Name)))
-            {
-                ModelState.AddModelError(nameof(updateWalk.Name), $"{nameof(updateWalk.Name)} cannot be null, empty or white space!");
-            }
+            //if (string.IsNullOrWhiteSpace(nameof(updateWalk.Name)))
+            //{
+            //    ModelState.AddModelError(nameof(updateWalk.Name), $"{nameof(updateWalk.Name)} cannot be null, empty or white space!");
+            //}
 
-            if (updateWalk.Length < 0)
-            {
-                ModelState.AddModelError(nameof(updateWalk.Length), $"{nameof(updateWalk.Length)} must be greater than zero!");
-            }
+            //if (updateWalk.Length < 0)
+            //{
+            //    ModelState.AddModelError(nameof(updateWalk.Length), $"{nameof(updateWalk.Length)} must be greater than zero!");
+            //}
 
             var region = await _regionRepository.GetAsync(updateWalk.RegionId);
 
